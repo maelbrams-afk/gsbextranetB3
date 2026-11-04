@@ -37,11 +37,8 @@
 							</form>
 							</br>
 						<a href="index.php?uc=creation&action=demandeCreation">je suis médecin, je souhaite créer un compte</a>
-                                                <br/>
-                                                
-                                        </div>	
-                                     
-                                    
+            </br>
+          </div>
 				</div>
 			</div>
 		</div>

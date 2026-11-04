@@ -28,15 +28,21 @@
 			<div class="login-wrapper">
 				<div class="box">
 						
-                                    <div class="content-wrap">
+          <div class="content-wrap">
 						<legend>je suis médecin, je souhaite créer un compte</legend>
 							<form method="post" action="index.php?uc=creation&action=valideCreation">
-                                                            <input name="login" class="form-control" type="email" placeholder="mail"/>
-							    <input name="mdp" class="form-control" type="password" placeholder="password"/>
-                                                            <input name="prénom" class="form-control" type="text" placeholder="prénom"/>
-                                                            <input name="nom" class="form-control" type="text" placeholder="nom"/>
+                <input name="login" class="form-control" type="email" placeholder="mail"/>
+							  <input name="mdp" class="form-control" type="password" placeholder="password"/>
+                <input name="prénom" class="form-control" type="text" placeholder="prénom"/>
+                <input name="nom" class="form-control" type="text" placeholder="nom"/>
 								<br>
-                                                            <input type="submit" class="btn btn-primary signup" value="Créer"/>
+                <input type="submit" class="btn btn-primary signup" value="Créer"/>
+                <div class="form-group">
+                  <input type="checkbox" id="accept_policy" name="accept_policy" required>
+                  <label for="accept_policy">  J’atteste avoir lu et accepte notre 
+                  <a href="vues/v_politiqueprotectiondonnees.html" target="_blank">politique de protection des données</a>
+                  </label>
+                </div>
 							</form>
 							</br>
 						
@@ -52,5 +58,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
+    
   </body>
 </html>

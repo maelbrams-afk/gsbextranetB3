@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `medecin` (
   `prenom` varchar(30) DEFAULT NULL,
   `telephone` varchar(10) DEFAULT NULL,
   `mail` varchar(50) DEFAULT NULL,
-  `dateNaissance` date DEFAULT NULL,
+  `dateNaissance` year(date) DEFAULT NULL,
   `motDePasse` varchar(30) DEFAULT NULL,
   `dateCreation` datetime DEFAULT NULL,
   `rpps` varchar(10) DEFAULT NULL,
