@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require_once("include/fct.inc.php");
 require_once("include/class.pdogsb.inc.php");
@@ -6,16 +7,8 @@ require_once("include/class.pdogsb.inc.php");
 date_default_timezone_set('Europe/Paris');
 
 $pdo = PdoGsb::getPdoGsb();
-$estConnecte = estConnecte();
-
-if (!isset($_GET['uc'])) {
-    $_GET['uc'] = 'connexion';
-} else {
-    if ($_GET['uc'] == "connexion" && !estConnecte()) {
-        $_GET['uc'] = 'connexion';
-    }
-}
-$uc = $_GET['uc'];
+$uc = isset($_GET['uc']) ? $_GET['uc'] : 'connexion';
+$maintenance = $pdo->estEnMaintenance();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -27,15 +20,24 @@ $uc = $_GET['uc'];
 
 <main>
 <?php
-switch ($uc) {
+if ($maintenance && !estAdmin() && $uc !== 'connexion') {
+    include("vues/v_maintenance.php");
+} else switch ($uc) {
     case 'connexion':
         include("controleurs/c_connexion.php");
         break;
     case 'creation':
         include("controleurs/c_creation.php");
         break;
+    case 'produits':
+        include("controleurs/c_produits.php");
+        break;
+    case 'admin':
+        include("controleurs/c_admin.php");
+        break;
     case 'consentement':
         include("controleurs/c_consentement.php");
+        break;
     default:
         include("controleurs/c_connexion.php");
         break;
@@ -43,7 +45,7 @@ switch ($uc) {
 ?>
 </main>
 
-<?php include '/var/www/html/projet/gsbextranetB3/vues/v_footer.php'; ?>
+<?php include 'vues/v_footer.php'; ?>
 
 </body>
 </html>

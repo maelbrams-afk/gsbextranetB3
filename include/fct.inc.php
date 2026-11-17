@@ -16,10 +16,32 @@ function estConnecte(){
  * @param $nom
  * @param $prenom
  */
-function connecter($id,$nom,$prenom){
-	$_SESSION['id']= $id; 
-	$_SESSION['nom']= $nom;
-	$_SESSION['prenom']= $prenom;
+function connecter($id, $nom, $prenom, $role = 'medecin'){
+	$_SESSION['id'] = $id;
+	$_SESSION['nom'] = $nom;
+	$_SESSION['prenom'] = $prenom;
+	$_SESSION['role'] = $role;
+}
+
+function estAdmin(){
+	return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
+function estChefProduit(){
+	return isset($_SESSION['role']) && in_array($_SESSION['role'], array('admin', 'chef_produit'), true);
+}
+
+function jetonCsrf(){
+	if (!isset($_SESSION['jetonCsrf'])) {
+		$_SESSION['jetonCsrf'] = bin2hex(random_bytes(32));
+	}
+	return $_SESSION['jetonCsrf'];
+}
+
+function verifierJetonCsrf($jeton){
+	return isset($_SESSION['jetonCsrf'])
+		&& is_string($jeton)
+		&& hash_equals($_SESSION['jetonCsrf'], $jeton);
 }
 
 
@@ -100,4 +122,29 @@ function input_data($data){
     
     
     
+
+/**
+ * 2FA - Génère un code à 6 chiffres (les zéros du début sont conservés : 004217)
+ * random_int() est cryptographiquement sûr, contrairement à rand()
+ * @return string
+ */
+function generateCodeA2f() {
+    return str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+}
+
+/**
+ * 2FA - Envoie le code de connexion par mail
+ * @param string $code
+ * @param string $mail adresse du médecin
+ * @return bool vrai si le mail a été accepté pour envoi
+ */
+function envoieCodeA2f($code, $mail) {
+    $sujet   = "GSB Extranet - votre code de connexion";
+    $message = "Votre code de connexion : " . $code . "\n"
+             . "Il est valable 1 minute.\n\n"
+             . "Si vous n'êtes pas à l'origine de cette connexion, ignorez ce message.";
+    $entetes = "From: no-reply@gsb.fr\r\nContent-Type: text/plain; charset=UTF-8";
+    return mail($mail, $sujet, $message, $entetes);
+}
+
 ?>

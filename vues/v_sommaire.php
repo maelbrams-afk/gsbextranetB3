@@ -1,7 +1,8 @@
 <?php
-if (!$_SESSION['id'])
-    header('Location: ../index.php');
-else {
+if (!estConnecte()) {
+    header('Location: index.php?uc=connexion');
+    exit();
+} else {
 ?>
 ﻿<!DOCTYPE html>
 <html lang="fr">
@@ -43,17 +44,16 @@ else {
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        
-        <li class="active"><a href="index.php?uc=etatFrais&action=selectionnerMois">M'inscrire à une visio</a></li> 
-        <li class="active"><a href="index.php?uc=etatFrais&action=formulaire">Télécharger son fichier JSON</a></li> 
-
-       
-         
+        <li><a href="index.php?uc=produits">Produits</a></li>
+        <li><a href="index.php?uc=portabilite">Télécharger mes données</a></li>
+        <?php if (estAdmin()): ?>
+          <li><a href="index.php?uc=admin">Administration</a></li>
+        <?php endif; ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-		  <li><a><?php echo $_SESSION['prenom']."  ".$_SESSION['nom']?></a></li>
-		  <li><a>Médecin</a></li>
-       
+		  <li><a><?php echo htmlspecialchars($_SESSION['prenom'].' '.$_SESSION['nom'], ENT_QUOTES, 'UTF-8'); ?></a></li>
+		  <li><a><?php echo htmlspecialchars($_SESSION['role'], ENT_QUOTES, 'UTF-8'); ?></a></li>
+          <li><a href="index.php?uc=connexion&action=deconnexion">Déconnexion</a></li>
      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
